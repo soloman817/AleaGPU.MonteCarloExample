@@ -5,12 +5,15 @@ open Alea.CUDA.Utilities
 
 [<ReflectedDefinition>]
 let apply f (n : int) (input : deviceptr<float32>) (output : deviceptr<float32>) = 
-    let iStart = blockIdx.x * blockDim.x + threadIdx.x
-    let iStep  = gridDim.x * blockDim.x
-    let mutable i = iStart
+    // initial index of thread
+    let iThread = blockIdx.x * blockDim.x + threadIdx.x
+    // number of active threads
+    let nThread  = gridDim.x * blockDim.x
+    // iterate until the threads have processed all elements 
+    let mutable i = iThread
     while i < n do
         output.[i] <- f input.[i]
-        i <- i + iStep 
+        i <- i + nThread
 
 [<ReflectedDefinition;AOTCompile>]
 let applySin n input output = apply sin n input output

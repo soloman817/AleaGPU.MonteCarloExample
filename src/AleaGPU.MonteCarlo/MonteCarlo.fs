@@ -4,14 +4,16 @@ open Alea.CUDA
 open Alea.CUDA.Utilities
 open Alea.CUDA.Unbound.Rng
 
-type Step = int
-type Real = float32
+type Step   = int
+type Real   = float32
+type Sample = int
 
+/// Performs an Euler step in log-coordinate space
 [<ReflectedDefinition>]
 let eulerLogStep (dt : Real) (mu : Real) (sigma : Real) (dW : Real) s =
-    let sdt = sqrt dt
-    s * (exp <| dt * (mu - (1G / 2G) * sigma * sigma) + sdt * sigma * dW )
-    
+    s * (exp <| dt * (mu - (1G / 2G) * sigma * sigma) + sqrt dt * sigma * dW )
+
+/// Time loop    
 [<ReflectedDefinition>]
 let mcLoop
         (tStart : Step)
@@ -31,9 +33,10 @@ let mcLoop
         t <- t + 1
 
     s
-    
+
+/// Sample loop    
 [<ReflectedDefinition>]
-let forAll (n : int) (f : int -> unit) =
+let forAll (n : Sample) (f : Sample -> unit) =
     let iStart = blockIdx.x * blockDim.x + threadIdx.x
     let iStep  = gridDim.x * blockDim.x
     let mutable i = iStart
@@ -41,10 +44,11 @@ let forAll (n : int) (f : int -> unit) =
         f i
         i <- i + iStep
 
+/// Simulation kernel
 [<ReflectedDefinition;AOTCompile>]
 let mcSim 
-        (nmc   : int)
-        (nt    : int)
+        (nmc   : Sample)
+        (nt    : Step)
         (dt    : deviceptr<Real>)
         (s0    : Real)
         (mu    : Real)
