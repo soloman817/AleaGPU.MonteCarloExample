@@ -13,7 +13,7 @@
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <TargetFSharpCoreVersion>4.3.1.0</TargetFSharpCoreVersion>
     <Name>AleaGPU-MonteCarlo</Name>
-    <NuGetPackageImportStamp>d35c7fd6</NuGetPackageImportStamp>
+    <NuGetPackageImportStamp>1fe5478c</NuGetPackageImportStamp>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
   </PropertyGroup>
@@ -63,13 +63,14 @@
     </PropertyGroup>
     <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
     <Error Condition="!Exists('..\..\packages\Alea.CUDA.2.0.0.3222\build\Alea.CUDA.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Alea.CUDA.2.0.0.3222\build\Alea.CUDA.targets'))" />
-    <Error Condition="!Exists('..\..\packages\Fody.1.28.0\build\Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Fody.1.28.0\build\Fody.targets'))" />
+    <Error Condition="!Exists('..\..\packages\Fody.1.28.3\build\Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Fody.1.28.3\build\Fody.targets'))" />
   </Target>
   <ItemGroup>
     <Compile Include="Histogram.fs" />
     <Compile Include="Randoms.fs" />
     <Compile Include="Compute.fs" />
     <Compile Include="MonteCarlo.fs" />
+    <Compile Include="MonteCarloCPU.fs" />
     <Compile Include="Program.fs" />
     <Content Include="packages.config" />
     <Content Include="FodyWeavers.xml" />

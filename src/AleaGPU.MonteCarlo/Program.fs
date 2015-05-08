@@ -30,4 +30,14 @@ let main args =
     chart.ShowChart() |> ignore
     chart.SaveChartAs("montecarlo.png",ChartTypes.ChartImageFormat.Png)
 
+    // Monte Carlo simulation on CPU
+    let res = MonteCarloCPU.example ()       
+
+    let xlim = Histogram.linbin 0.4 2.5 40
+    let count, xmid = Histogram.histogram xlim (res |> Array.map float)
+
+    let chart = FSharp.Charting.Chart.Column (Seq.zip xmid count) 
+    chart.ShowChart() |> ignore
+    chart.SaveChartAs("montecarlo_cpu.png",ChartTypes.ChartImageFormat.Png)
+
     0
