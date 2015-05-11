@@ -3,6 +3,8 @@
 open Alea.CUDA
 open Alea.CUDA.Utilities
 open Alea.CUDA.Unbound.Rng
+
+/// Import code for the single sample `mcLoop` from the GPU example.
 open MonteCarlo
 
 /// Sample loop on CPU

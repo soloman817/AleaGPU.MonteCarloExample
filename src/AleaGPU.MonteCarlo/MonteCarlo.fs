@@ -13,7 +13,10 @@ type Sample = int
 let eulerLogStep (dt : Real) (mu : Real) (sigma : Real) (dW : Real) s =
     s * (exp <| dt * (mu - (1G / 2G) * sigma * sigma) + sqrt dt * sigma * dW )
 
-/// Time loop    
+/// Time loop
+///
+/// Time stepping for a single random sample.
+///
 [<ReflectedDefinition>]
 let mcLoop
         (tStart : Step)
@@ -61,6 +64,7 @@ let mcSim
 
     forAll nmc go
     
+/// Determine launch parameter for kernel
 let launchParam (worker : Worker) n =
     let blockSize = 256
     let numSm = worker.Device.Attributes.MULTIPROCESSOR_COUNT

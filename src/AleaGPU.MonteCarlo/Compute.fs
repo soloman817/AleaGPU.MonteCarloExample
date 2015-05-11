@@ -15,6 +15,14 @@ let apply f (n : int) (input : deviceptr<float32>) (output : deviceptr<float32>)
         output.[i] <- f input.[i]
         i <- i + nThread
 
+/// Apply `sin` to all elements of `input` and write to `output`.
+///
+/// The inputs of the function are of type `int` and `deviceptr<float32>` so that we can
+/// compile the function to a kernerl that can be run on the GPU. The annotation `AOTCompile`
+/// requests the creation of the Kernel at the creation time of the assembly. If the option
+/// is omitted then the Kernel will be compiled just-in-time when it is called for the first
+/// time.
+/// 
 [<ReflectedDefinition;AOTCompile>]
 let applySin n input output = apply sin n input output
 
